@@ -39,6 +39,7 @@ module.exports = {
     "no-unused-expressions": [0],
     "no-continue": [0],
     "no-plusplus": [0],
+    "no-console": [1], 
     "func-names": [0],
     "arrow-parens": [0],
     "space-before-function-paren": [0],
