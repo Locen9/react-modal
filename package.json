@@ -16,7 +16,8 @@
   "scripts": {
     "start": "npx webpack-dev-server --config ./scripts/webpack.config.js --inline --host 127.0.0.1 --content-base examples/",
     "test": "cross-env NODE_ENV=test karma start",
-    "lint": "eslint src/"
+    "lint": "eslint src/",
+    "build": "NODE_ENV=production babel src --out-dir lib"
   },
   "authors": [
     "Ryan Florence"
@@ -66,6 +67,7 @@
   },
   "dependencies": {
     "exenv": "^1.2.0",
+    "path-browserify": "^1.0.1",
     "prop-types": "^15.7.2",
     "react-lifecycles-compat": "^3.0.0",
     "warning": "^4.0.3"
