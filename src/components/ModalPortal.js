@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Component } from "react";
 import PropTypes from "prop-types";
 import * as focusManager from "../helpers/focusManager";
@@ -133,9 +134,11 @@ export default class ModalPortal extends Component {
   }
 
   componentWillUnmount() {
-    if (this.state.isOpen) {
-      this.afterClose();
-    }
+    // if (this.state.isOpen) {
+    //   this.afterClose();
+    // }
+    // when unmounting call afterClose and clean up anyway
+    this.afterClose();
     clearTimeout(this.closeTimer);
     cancelAnimationFrame(this.openAnimationFrame);
   }
@@ -267,25 +270,14 @@ export default class ModalPortal extends Component {
     this.content.focus({ preventScroll: true });
 
   closeWithTimeout = () => {
-    const pastTime = Date.now();
-    const closesAt = pastTime + this.props.closeTimeoutMS; // pastTime + timeout
+    const closesAt = Date.now() + this.props.closeTimeoutMS; // pastTime + timeout
     this.setState({ beforeClose: true, closesAt }, () => {
-      console.debug("pastTime", pastTime);
-      console.debug(
-        "closesAt",
-        closesAt,
-        "this.state",
-        this.state.closesAt,
-        "check",
-        this.state.closesAt === closesAt
-      );
-      const now = Date.now();
-      const realDelay = this.state.closesAt - now;
-      console.debug("realDelay", realDelay, "now", now);
       this.closeTimer = setTimeout(
-        this.closeWithoutTimeout,
-        realDelay
-        // eslint-disable-next-line max-len
+        () => {
+          this.closeWithoutTimeout();
+        },
+        this.state.closesAt - Date.now()
+        // the closeTimeoutMS time is reduced by the elapsed time from both Date now
         // pastTime1 + timeout - ( pastTime1 + elapsedTime) = timeout - elapsedTime
       );
     });
