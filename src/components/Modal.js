@@ -158,7 +158,9 @@ class Modal extends Component {
 
     const { prevParent, nextParent } = snapshot;
     if (nextParent !== prevParent) {
-      prevParent.removeChild(this.node);
+      if (prevParent.contains(this.node)) {
+        prevParent.removeChild(this.node);
+      }
       nextParent.appendChild(this.node);
     }
 

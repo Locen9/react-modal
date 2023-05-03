@@ -9,7 +9,7 @@ import SafeHTMLElement, {
   SafeHTMLCollection,
   SafeNodeList
 } from "../helpers/safeHTMLElement";
-import portalOpenInstances from "../helpers/portalOpenInstances";
+// import portalOpenInstances from "../helpers/portalOpenInstances";
 import "../helpers/bodyTrap";
 
 // so that our CSS is statically analyzable
@@ -179,7 +179,7 @@ export default class ModalPortal extends Component {
       ariaAppHider.hide(appElement);
     }
 
-    portalOpenInstances.register(this);
+    // portalOpenInstances.register(this); //comemnted as we do not need to track it
   }
 
   afterClose = () => {
@@ -193,40 +193,41 @@ export default class ModalPortal extends Component {
 
     const parentDocument =
       (parentSelector && parentSelector().ownerDocument) || document;
+    try {
+      // Remove classes.
+      bodyOpenClassName &&
+        classList.remove(parentDocument.body, bodyOpenClassName);
 
-    // Remove classes.
-    bodyOpenClassName &&
-      classList.remove(parentDocument.body, bodyOpenClassName);
+      htmlOpenClassName &&
+        classList.remove(
+          parentDocument.getElementsByTagName("html")[0],
+          htmlOpenClassName
+        );
 
-    htmlOpenClassName &&
-      classList.remove(
-        parentDocument.getElementsByTagName("html")[0],
-        htmlOpenClassName
-      );
+      // Reset aria-hidden attribute if all modals have been removed
+      if (ariaHideApp && ariaHiddenInstances > 0) {
+        ariaHiddenInstances -= 1;
 
-    // Reset aria-hidden attribute if all modals have been removed
-    if (ariaHideApp && ariaHiddenInstances > 0) {
-      ariaHiddenInstances -= 1;
-
-      if (ariaHiddenInstances === 0) {
-        ariaAppHider.show(appElement);
+        if (ariaHiddenInstances === 0) {
+          ariaAppHider.show(appElement);
+        }
       }
-    }
 
-    if (this.props.shouldFocusAfterRender) {
-      if (this.props.shouldReturnFocusAfterClose) {
-        focusManager.returnFocus(this.props.preventScroll);
-        focusManager.teardownScopedFocus();
-      } else {
-        focusManager.popWithoutFocus();
+      if (this.props.shouldFocusAfterRender) {
+        if (this.props.shouldReturnFocusAfterClose) {
+          focusManager.returnFocus(this.props.preventScroll);
+          focusManager.teardownScopedFocus();
+        } else {
+          focusManager.popWithoutFocus();
+        }
       }
+      if (this.props.onAfterClose) {
+        this.props.onAfterClose();
+      }
+    } catch (err) {
+      console.debug("err", err);
     }
-
-    portalOpenInstances.deregister(this);
-
-    if (this.props.onAfterClose) {
-      this.props.onAfterClose();
-    }
+    // portalOpenInstances.deregister(this); // commented as we do not need to track it
   };
 
   open = () => {
