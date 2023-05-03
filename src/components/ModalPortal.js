@@ -179,7 +179,7 @@ export default class ModalPortal extends Component {
       ariaAppHider.hide(appElement);
     }
 
-    // portalOpenInstances.register(this); //comemnted as we do not need to track it
+    // portalOpenInstances.register(this); //commented as we do not need to track it
   }
 
   afterClose = () => {
@@ -225,7 +225,7 @@ export default class ModalPortal extends Component {
         this.props.onAfterClose();
       }
     } catch (err) {
-      console.debug("err", err);
+      console.warn("error when removing classes", err);
     }
     // portalOpenInstances.deregister(this); // commented as we do not need to track it
   };
@@ -258,10 +258,8 @@ export default class ModalPortal extends Component {
 
   close = () => {
     if (this.props.closeTimeoutMS > 0) {
-      console.debug("this.close with timeout");
       this.closeWithTimeout();
     } else {
-      console.debug("this.close without timeout");
       this.closeWithoutTimeout();
     }
   };
