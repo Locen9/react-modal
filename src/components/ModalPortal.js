@@ -222,11 +222,11 @@ export default class ModalPortal extends Component {
       }
     }
 
+    portalOpenInstances.deregister(this);
+
     if (this.props.onAfterClose) {
       this.props.onAfterClose();
     }
-
-    portalOpenInstances.deregister(this);
   };
 
   open = () => {
