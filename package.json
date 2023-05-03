@@ -18,8 +18,7 @@
     "test": "cross-env NODE_ENV=test karma start",
     "lint": "eslint src/",
     "build": "NODE_ENV=production babel src --out-dir lib",
-    "prepare": "npm run build",
-    "prepack": "yarn run build"
+    "prepare": "yarn run build || npm run build"
   },
   "authors": [
     "Ryan Florence"
