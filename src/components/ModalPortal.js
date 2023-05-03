@@ -137,7 +137,7 @@ export default class ModalPortal extends Component {
     // if (this.state.isOpen) {
     //   this.afterClose();
     // }
-    // when unmounting call afterClose and clean up anyway
+    // when unmounting call afterClose and clean up classes and html
     this.afterClose();
     clearTimeout(this.closeTimer);
     cancelAnimationFrame(this.openAnimationFrame);
@@ -257,8 +257,10 @@ export default class ModalPortal extends Component {
 
   close = () => {
     if (this.props.closeTimeoutMS > 0) {
+      console.debug("this.close with timeout");
       this.closeWithTimeout();
     } else {
+      console.debug("this.close without timeout");
       this.closeWithoutTimeout();
     }
   };
@@ -278,7 +280,7 @@ export default class ModalPortal extends Component {
         },
         this.state.closesAt - Date.now()
         // the closeTimeoutMS time is reduced by the elapsed time from both Date now
-        // pastTime1 + timeout - ( pastTime1 + elapsedTime) = timeout - elapsedTime
+        // pastTime + timeout - ( pastTime + elapsedTime) = timeout - elapsedTime
       );
     });
   };

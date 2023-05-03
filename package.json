@@ -17,7 +17,8 @@
     "start": "npx webpack-dev-server --config ./scripts/webpack.config.js --inline --host 127.0.0.1 --content-base examples/",
     "test": "cross-env NODE_ENV=test karma start",
     "lint": "eslint src/",
-    "build": "NODE_ENV=production babel src --out-dir lib"
+    "build": "NODE_ENV=production babel src --out-dir lib",
+    "prepare": "npx run build"
   },
   "authors": [
     "Ryan Florence"
