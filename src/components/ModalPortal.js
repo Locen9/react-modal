@@ -9,7 +9,7 @@ import SafeHTMLElement, {
   SafeHTMLCollection,
   SafeNodeList
 } from "../helpers/safeHTMLElement";
-// import portalOpenInstances from "../helpers/portalOpenInstances";
+import portalOpenInstances from "../helpers/portalOpenInstances";
 import "../helpers/bodyTrap";
 
 // so that our CSS is statically analyzable
@@ -179,7 +179,7 @@ export default class ModalPortal extends Component {
       ariaAppHider.hide(appElement);
     }
 
-    // portalOpenInstances.register(this); //commented as we do not need to track it
+    portalOpenInstances.register(this);
   }
 
   afterClose = () => {
@@ -227,7 +227,7 @@ export default class ModalPortal extends Component {
     } catch (err) {
       console.warn("error when removing classes", err);
     }
-    // portalOpenInstances.deregister(this); // commented as we do not need to track it
+    portalOpenInstances.deregister(this);
   };
 
   open = () => {
